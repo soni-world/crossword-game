@@ -46,25 +46,24 @@ export function GameBoard({
     return false;
   };
 
-  const cellSizeClass = puzzle.cols <= 9 ? "w-11 h-11 md:w-14 md:h-14" :
-                       puzzle.cols <= 12 ? "w-9 h-9 md:w-12 md:h-12" :
-                       "w-7 h-7 md:w-10 md:h-10";
-
-  const fontSizeClass = puzzle.cols <= 9 ? "text-xl md:text-3xl" :
-                       puzzle.cols <= 12 ? "text-lg md:text-2xl" :
-                       "text-sm md:text-xl";
-
+  // Each cell uses CSS grid 1fr with aspect-square so cells auto-fit container.
+  // The grid container is bounded by viewport width on mobile.
+  // On mobile: fit width of container (which is bounded by viewport).
+  // On desktop: cap cells at ~56px, so grid width = cols * 56.
   return (
-    <div className="inline-block p-3 md:p-4 bg-gradient-to-br from-white to-purple-50 rounded-3xl playful-shadow">
+    <div className="inline-block p-2 md:p-4 bg-gradient-to-br from-white to-purple-50 rounded-2xl md:rounded-3xl playful-shadow max-w-full">
       <div
-        className="grid gap-0.5 md:gap-1"
-        style={{ gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))` }}
+        className="grid gap-0.5 md:gap-1 mx-auto"
+        style={{
+          gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))`,
+          width: `min(calc(100vw - 1.5rem), ${puzzle.cols * 56}px)`,
+        }}
       >
         {puzzle.grid.flatMap((row, r) =>
           row.map((cell, c) => {
             const key = `${r}-${c}`;
             if (!cell) {
-              return <div key={key} className={cellSizeClass} />;
+              return <div key={key} className="aspect-square" />;
             }
 
             const inActive = isCellInActiveWord(r, c);
@@ -77,20 +76,20 @@ export function GameBoard({
             return (
               <div
                 key={key}
-                className={`relative ${cellSizeClass} rounded-md md:rounded-lg transition-all duration-150 ${
+                className={`relative aspect-square rounded-md md:rounded-lg transition-all duration-150 ${
                   isActive
-                    ? "bg-yellow-300 ring-4 ring-yellow-500 scale-110 z-10"
+                    ? "bg-yellow-300 ring-2 md:ring-4 ring-yellow-500 scale-110 z-10"
                     : inActive
                     ? "bg-purple-100 ring-2 ring-purple-300"
                     : correct
                     ? "bg-green-100"
                     : "bg-white"
-                } ${isWrong ? "animate-pop" : ""} border-2 ${
+                } ${isWrong ? "animate-pop" : ""} border md:border-2 ${
                   correct ? "border-green-400" : "border-purple-200"
                 }`}
               >
                 {cell.number && (
-                  <span className="absolute top-0 left-0.5 text-[8px] md:text-[10px] font-bold text-purple-700 leading-none pt-0.5">
+                  <span className="absolute top-0 left-0.5 text-[7px] md:text-[10px] font-bold text-purple-700 leading-none pt-0.5 pointer-events-none">
                     {cell.number}
                   </span>
                 )}
@@ -104,13 +103,13 @@ export function GameBoard({
                   maxLength={1}
                   value={value}
                   onClick={() => onCellClick(r, c)}
-                  onFocus={() => onCellClick(r, c)}
                   onChange={(e) => onCellInput(r, c, e.target.value)}
                   onKeyDown={(e) => onCellKey(r, c, e.key)}
                   readOnly={isRevealed}
-                  className={`cell-input w-full h-full text-center font-bold ${fontSizeClass} bg-transparent outline-none ${
+                  className={`cell-input w-full h-full text-center font-bold bg-transparent outline-none ${
                     correct ? "text-green-700" : isRevealed ? "text-blue-700" : "text-purple-900"
                   }`}
+                  style={{ fontSize: "clamp(0.75rem, 3.5vw, 1.5rem)" }}
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck={false}

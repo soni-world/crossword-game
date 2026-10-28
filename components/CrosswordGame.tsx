@@ -343,21 +343,37 @@ export function CrosswordGame() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 w-full max-w-7xl mx-auto px-3 md:px-6 py-4 space-y-4"
+            className="flex-1 w-full max-w-7xl mx-auto px-2 md:px-6 py-2 md:py-4 space-y-2 md:space-y-4"
           >
-            <HUD
-              score={score}
-              seconds={seconds}
-              timerEnabled={timerEnabled}
-              onToggleTimer={() => setTimerEnabled((v) => !v)}
-              onNewPuzzle={handleNewPuzzle}
-              onExit={handleExit}
-              topicName={topic.name}
-              topicEmoji={topic.emoji}
-              difficulty={difficulty}
-            />
+            <div className="sticky top-0 z-20 -mx-2 md:mx-0 px-2 md:px-0 py-1 md:py-0 bg-gradient-to-br from-transparent to-transparent">
+              <HUD
+                score={score}
+                seconds={seconds}
+                timerEnabled={timerEnabled}
+                onToggleTimer={() => setTimerEnabled((v) => !v)}
+                onNewPuzzle={handleNewPuzzle}
+                onExit={handleExit}
+                topicName={topic.name}
+                topicEmoji={topic.emoji}
+                difficulty={difficulty}
+              />
+            </div>
 
-            <div className="grid lg:grid-cols-[auto_1fr] gap-4 items-start">
+            {/* Mobile: hint panel above grid for visibility while typing */}
+            <div className="lg:hidden">
+              <HintPanel
+                activeWord={activeWord}
+                hintLevel={hintLevel}
+                onHint={handleHint}
+                onReveal={handleReveal}
+                disabled={
+                  activeWordIdx !== null &&
+                  scoredWordsRef.current.has(activeWordIdx)
+                }
+              />
+            </div>
+
+            <div className="grid lg:grid-cols-[auto_1fr] gap-2 md:gap-4 items-start">
               <div className="flex justify-center">
                 <GameBoard
                   puzzle={puzzle}
@@ -372,17 +388,20 @@ export function CrosswordGame() {
                 />
               </div>
 
-              <div className="space-y-4">
-                <HintPanel
-                  activeWord={activeWord}
-                  hintLevel={hintLevel}
-                  onHint={handleHint}
-                  onReveal={handleReveal}
-                  disabled={
-                    activeWordIdx !== null &&
-                    scoredWordsRef.current.has(activeWordIdx)
-                  }
-                />
+              <div className="space-y-4 w-full">
+                {/* Desktop hint panel */}
+                <div className="hidden lg:block">
+                  <HintPanel
+                    activeWord={activeWord}
+                    hintLevel={hintLevel}
+                    onHint={handleHint}
+                    onReveal={handleReveal}
+                    disabled={
+                      activeWordIdx !== null &&
+                      scoredWordsRef.current.has(activeWordIdx)
+                    }
+                  />
+                </div>
                 <ClueList
                   words={puzzle.words}
                   activeWord={activeWord}
