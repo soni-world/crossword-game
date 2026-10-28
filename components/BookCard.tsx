@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import type { Book } from "@/lib/bookBanks";
+import { findCopyUrl, type Book } from "@/lib/bookBanks";
 
 interface Props {
   book: Book;
@@ -13,6 +13,7 @@ interface Props {
 export function BookCard({ book, isRead, onToggleRead }: Props) {
   const [imageError, setImageError] = useState(false);
   const coverUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg?default=false`;
+  const findUrl = findCopyUrl(book.isbn);
 
   return (
     <motion.div
@@ -61,16 +62,36 @@ export function BookCard({ book, isRead, onToggleRead }: Props) {
           <p className="text-xs md:text-sm opacity-95 line-clamp-3 mb-3">
             {book.synopsis}
           </p>
-          <button
-            onClick={onToggleRead}
-            className={`text-xs md:text-sm font-bold px-3 py-1.5 rounded-full transition active:scale-95 ${
-              isRead
-                ? "bg-white/30 text-white hover:bg-white/40"
-                : "bg-white text-purple-900 hover:brightness-110"
-            }`}
-          >
-            {isRead ? "↩️ Unread" : "✅ Mark as read"}
-          </button>
+          <div className="flex flex-wrap gap-1.5">
+            {book.freeReadUrl && (
+              <a
+                href={book.freeReadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-white text-purple-900 hover:brightness-110 active:scale-95 transition"
+              >
+                📖 Read free
+              </a>
+            )}
+            <a
+              href={findUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs md:text-sm font-bold px-3 py-1.5 rounded-full bg-white/25 text-white hover:bg-white/35 active:scale-95 transition border border-white/40"
+            >
+              🏛️ Find a copy
+            </a>
+            <button
+              onClick={onToggleRead}
+              className={`text-xs md:text-sm font-bold px-3 py-1.5 rounded-full transition active:scale-95 ${
+                isRead
+                  ? "bg-white/30 text-white hover:bg-white/40"
+                  : "bg-white/90 text-purple-900 hover:bg-white"
+              }`}
+            >
+              {isRead ? "↩️ Unread" : "✅ Read"}
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>

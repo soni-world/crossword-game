@@ -9,6 +9,17 @@ export interface Book {
   synopsis: string;
   emoji: string;
   gradient: string;
+  // Optional link to a legitimately free full-text source (Project Gutenberg,
+  // Standard Ebooks, Internet Archive). Only populated for works whose text is
+  // public domain. Modern copyrighted titles leave this undefined — the UI
+  // falls back to Open Library's "find a copy / borrow" page via ISBN.
+  freeReadUrl?: string;
+  publicDomain?: boolean;
+}
+
+/** Open Library ISBN page: shows editions, borrow availability, buy links. */
+export function findCopyUrl(isbn: string): string {
+  return `https://openlibrary.org/isbn/${isbn}`;
 }
 
 // Famous British children's writers — Level 2 (ages 5-7, picture books / early readers)
@@ -26,6 +37,8 @@ export const BOOKS: Book[] = [
     synopsis: "Naughty Peter sneaks into Mr McGregor's garden and gets into trouble — a classic English countryside tale.",
     emoji: "🐰",
     gradient: "from-emerald-400 to-teal-500",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/14838",
   },
   {
     id: "jemima-puddleduck",
@@ -36,6 +49,8 @@ export const BOOKS: Book[] = [
     synopsis: "A trusting duck meets a sly gentleman fox in the woods. Will her ducklings hatch safely?",
     emoji: "🦆",
     gradient: "from-amber-300 to-yellow-500",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/14814",
   },
   {
     id: "gruffalo",
@@ -378,6 +393,8 @@ export const BOOKS: Book[] = [
     synopsis: "Alice tumbles down a rabbit hole into a nonsensical land of talking cats, mad hatters and a Queen of Hearts.",
     emoji: "🫖",
     gradient: "from-sky-500 to-indigo-700",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/11",
   },
   {
     id: "boy-who-grew-dragons",
@@ -398,6 +415,56 @@ export const BOOKS: Book[] = [
     synopsis: "A giant metal man falls off a cliff into the sea and emerges to befriend a boy and save the world.",
     emoji: "🤖",
     gradient: "from-slate-500 to-zinc-700",
+  },
+
+  // Extra public-domain UK classics with free full-text reads
+  {
+    id: "benjamin-bunny",
+    title: "The Tale of Benjamin Bunny",
+    author: "Beatrix Potter",
+    level: 2,
+    isbn: "0723247749",
+    synopsis: "Peter Rabbit's cousin Benjamin coaxes him back into Mr McGregor's garden to fetch his lost jacket.",
+    emoji: "🥕",
+    gradient: "from-lime-400 to-emerald-600",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/14407",
+  },
+  {
+    id: "wind-in-willows",
+    title: "The Wind in the Willows",
+    author: "Kenneth Grahame",
+    level: 3,
+    isbn: "0763642436",
+    synopsis: "Mole, Ratty, Badger and the irrepressible Mr Toad have adventures along the English riverbank.",
+    emoji: "🚣",
+    gradient: "from-emerald-500 to-sky-600",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/289",
+  },
+  {
+    id: "peter-pan",
+    title: "Peter Pan (Peter and Wendy)",
+    author: "J.M. Barrie",
+    level: 3,
+    isbn: "0141322578",
+    synopsis: "Wendy, John and Michael fly off to Neverland with Peter Pan to meet mermaids, pirates and Captain Hook.",
+    emoji: "🧚",
+    gradient: "from-cyan-400 to-indigo-700",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/16",
+  },
+  {
+    id: "just-so-stories",
+    title: "Just So Stories",
+    author: "Rudyard Kipling",
+    level: 3,
+    isbn: "0140366997",
+    synopsis: "How the Camel got his hump, how the Leopard got his spots — playful tales about the dawn of the animals.",
+    emoji: "🐫",
+    gradient: "from-amber-500 to-orange-700",
+    publicDomain: true,
+    freeReadUrl: "https://www.gutenberg.org/ebooks/2781",
   },
 ];
 

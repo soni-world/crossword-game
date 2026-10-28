@@ -172,6 +172,17 @@ export function BookShelf({ onBack }: Props) {
           🏆 You've read every book here! Super reader!
         </motion.div>
       )}
+
+      <div className="text-xs text-purple-700/70 text-center pt-2 leading-relaxed">
+        <p>
+          📖 <span className="font-semibold">Read free</span> links go to Project Gutenberg — only
+          shown for books whose text is in the public domain.
+        </p>
+        <p>
+          🏛️ <span className="font-semibold">Find a copy</span> opens Open Library, where you can
+          borrow (free library loan) or see where to buy. We don't host copyrighted PDFs.
+        </p>
+      </div>
     </div>
   );
 }
