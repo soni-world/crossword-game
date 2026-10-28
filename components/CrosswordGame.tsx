@@ -9,11 +9,12 @@ import { ClueList } from "./ClueList";
 import { HintPanel } from "./HintPanel";
 import { HUD } from "./HUD";
 import { VictoryModal } from "./VictoryModal";
+import { BookShelf } from "./BookShelf";
 import { TOPICS } from "@/lib/topics";
 import { generateCrossword } from "@/lib/crosswordGenerator";
 import type { Difficulty, PlacedWord, Puzzle, TopicId } from "@/lib/types";
 
-type Screen = "topic" | "difficulty" | "game";
+type Screen = "topic" | "difficulty" | "game" | "books";
 
 const HINT_COSTS = [5, 10, 15];
 const REVEAL_COST = 25;
@@ -317,7 +318,22 @@ export function CrosswordGame() {
             exit={{ opacity: 0 }}
             className="flex-1 flex items-center"
           >
-            <TopicSelector onSelect={handleTopicSelect} />
+            <TopicSelector
+              onSelect={handleTopicSelect}
+              onOpenBooks={() => setScreen("books")}
+            />
+          </motion.div>
+        )}
+
+        {screen === "books" && (
+          <motion.div
+            key="books"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-1"
+          >
+            <BookShelf onBack={() => setScreen("topic")} />
           </motion.div>
         )}
 
