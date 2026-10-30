@@ -9,12 +9,11 @@ import { ClueList } from "./ClueList";
 import { HintPanel } from "./HintPanel";
 import { HUD } from "./HUD";
 import { VictoryModal } from "./VictoryModal";
-import { BookShelf } from "./BookShelf";
 import { TOPICS } from "@/lib/topics";
 import { generateCrossword } from "@/lib/crosswordGenerator";
 import type { Difficulty, PlacedWord, Puzzle, TopicId } from "@/lib/types";
 
-type Screen = "topic" | "difficulty" | "game" | "books";
+type Screen = "topic" | "difficulty" | "game";
 
 const HINT_COSTS = [5, 10, 15];
 const REVEAL_COST = 25;
@@ -318,22 +317,7 @@ export function CrosswordGame() {
             exit={{ opacity: 0 }}
             className="flex-1 flex items-center"
           >
-            <TopicSelector
-              onSelect={handleTopicSelect}
-              onOpenBooks={() => setScreen("books")}
-            />
-          </motion.div>
-        )}
-
-        {screen === "books" && (
-          <motion.div
-            key="books"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex-1"
-          >
-            <BookShelf onBack={() => setScreen("topic")} />
+            <TopicSelector onSelect={handleTopicSelect} />
           </motion.div>
         )}
 
@@ -375,8 +359,8 @@ export function CrosswordGame() {
               />
             </div>
 
-            {/* Mobile: hint panel above grid for visibility while typing */}
-            <div className="lg:hidden">
+            {/* Phone-only: hint panel above grid for visibility while typing */}
+            <div className="md:hidden">
               <HintPanel
                 activeWord={activeWord}
                 hintLevel={hintLevel}
@@ -389,7 +373,7 @@ export function CrosswordGame() {
               />
             </div>
 
-            <div className="grid lg:grid-cols-[auto_1fr] gap-2 md:gap-4 items-start">
+            <div className="grid md:grid-cols-[auto_1fr] gap-2 md:gap-4 items-start">
               <div className="flex justify-center">
                 <GameBoard
                   puzzle={puzzle}
@@ -405,8 +389,8 @@ export function CrosswordGame() {
               </div>
 
               <div className="space-y-4 w-full">
-                {/* Desktop hint panel */}
-                <div className="hidden lg:block">
+                {/* Tablet+ hint panel on the side */}
+                <div className="hidden md:block">
                   <HintPanel
                     activeWord={activeWord}
                     hintLevel={hintLevel}

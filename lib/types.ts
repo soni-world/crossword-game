@@ -8,7 +8,8 @@ export type TopicId =
   | "colors"
   | "heroes"
   | "world"
-  | "trendy";
+  | "trendy"
+  | "cars";
 
 export interface Topic {
   id: TopicId;

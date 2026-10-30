@@ -57,4 +57,11 @@ export const TOPICS: Topic[] = [
     gradient: "from-violet-500 via-purple-500 to-indigo-500",
     description: "Robots, games, emoji",
   },
+  {
+    id: "cars",
+    name: "Cars & Models",
+    emoji: "🏎️",
+    gradient: "from-red-500 via-orange-500 to-yellow-400",
+    description: "Supercars & car parts",
+  },
 ];

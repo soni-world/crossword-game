@@ -55,7 +55,7 @@ export function ClueList({ words, activeWord, solved, onSelectWord }: Props) {
     <div className="w-full bg-white/80 backdrop-blur rounded-2xl md:rounded-3xl p-3 md:p-4 playful-shadow">
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="lg:hidden w-full flex items-center justify-between font-bold text-purple-900 py-1"
+        className="md:hidden w-full flex items-center justify-between font-bold text-purple-900 py-1"
         aria-expanded={expanded}
       >
         <span className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export function ClueList({ words, activeWord, solved, onSelectWord }: Props) {
         <span className={`transition-transform ${expanded ? "rotate-180" : ""}`}>⌄</span>
       </button>
       <div
-        className={`${expanded ? "block" : "hidden"} lg:block space-y-4 md:space-y-5 mt-3 lg:mt-0 lg:max-h-[70vh] lg:overflow-y-auto`}
+        className={`${expanded ? "block" : "hidden"} md:block space-y-4 md:space-y-5 mt-3 md:mt-0 md:max-h-[70vh] md:overflow-y-auto`}
       >
         {across.length > 0 && renderGroup("Across", across, "➡️")}
         {down.length > 0 && renderGroup("Down", down, "⬇️")}
